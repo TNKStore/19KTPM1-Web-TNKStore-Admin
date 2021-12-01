@@ -390,27 +390,21 @@
                     </div>
                     <nav class="text-right">
                         <ul class="pagination">
+                            {{#if previous}}
                             <li class="page-item">
-                                <a class="page-link" href=""> Prev </a>
+                                <a class="page-link" href="{{previous.url}}"> Prev </a>
                             </li>
+                            {{/if}}
+                            {{#each pages}}
                             <li class="page-item active">
-                                <a class="page-link" href=""> 1 </a>
+                                <a class="page-link" href="{{url}}"> {{page}} </a>
                             </li>
+                            {{/each}}
+                            {{#if next}}
                             <li class="page-item">
-                                <a class="page-link" href=""> 2 </a>
+                                <a class="page-link" href="{{next.url}}"> Next </a>
                             </li>
-                            <li class="page-item">
-                                <a class="page-link" href=""> 3 </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href=""> 4 </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href=""> 5 </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href=""> Next </a>
-                            </li>
+                            {{/if}}
                         </ul>
                     </nav>
                 </article>

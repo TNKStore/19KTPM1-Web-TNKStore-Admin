@@ -1,3 +1,3 @@
 const Product = require('../../models/productModel');
 
-exports.list = () => Product.findAll({limit: 6});
+exports.list = (page, itemPerPage) => Product.findAndCountAll({offset: ((itemPerPage * page) - itemPerPage), limit: itemPerPage});

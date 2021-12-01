@@ -1,5 +1,6 @@
 const { Sequelize } = require('sequelize');
 const sequelize = require('../models');
+const Catalog = require('./catalogModel');
 
 const Product = sequelize.define('product', {
     id: {
@@ -29,6 +30,7 @@ const Product = sequelize.define('product', {
     },
     catalog_id: {
         type: Sequelize.INTEGER
+
     }}, {
         tableName: "product",
         timestamps: false
