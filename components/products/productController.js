@@ -1,18 +1,18 @@
 const productService = require('./productService');
+const catalogService = require('./catalogService');
 const {body, validationResult} = require('express-validator');
 const Catalog = require('../../models/catalogModel');
 const Product = require('../../models/productModel');
 const {result} = require('lodash');
+const createError = require("http-errors");
 
 exports.list = async function (req, res, next) {
     let page = parseInt(req.query.page) || 1;
 
     const itemPerPage = 6;
-    const productsList = await productService.list(page, itemPerPage);
+    const productsList = await productService.listWithCatalog(page, itemPerPage);
     const products = productsList.rows;
-    console.log(products);
     const numPages = Math.ceil(productsList.count / itemPerPage);
-    console.log(numPages);
     //if (page> numPages) {
     //next(createError(404))
     //}
@@ -101,30 +101,13 @@ exports.product_create_post = [
 ];
 
 // Display product delete form on GET.
-exports.product_delete_get = function (req, res, next) {
-
-    async.parallel({
-        products: function (callback) {
-            Product.findById(req.params.id).exec(callback)
-        },
-        authors_products: function (callback) {
-            product.find({'author': req.params.id}).exec(callback)
-        },
-    }, function (err, results) {
-        if (err) {
-            return next(err);
-        }
-        if (results.author == null) { // No results.
-            res.redirect('/catalog/authors');
-        }
-        // Successful, so render.
-        res.render('author_delete', {
-            title: 'Delete Author',
-            author: results.author,
-            author_products: results.authors_products
-        });
-    });
-
+exports.product_delete_get = async function (req, res, next) {
+    const id = parseInt(req.query.id)
+    if (id) {
+        productService.deleteByID(id)
+            .then(_ => res.redirect('/items-list'))
+            .catch(err => next(err))
+    }
 };
 
 // Handle product delete on POST.
@@ -133,8 +116,22 @@ exports.product_delete_post = function (req, res) {
 };
 
 // Display product update form on GET.
-exports.product_update_get = function (req, res) {
-    res.send('NOT IMPLEMENTED: product update GET');
+exports.product_update_get = async function (req, res, next) {
+    let id = parseInt(req.params.id);
+
+    if (id) {
+        const product = await productService.getProductByIDWithCatalog(id);
+        const catalog = await catalogService.list
+
+        res.render('items/item-editor',
+            {
+                pageTitle: "Update the product",
+                product: product,
+                catalog: catalog
+            })
+    } else {
+        next(createError(404))
+    }
 };
 
 // Handle product update on POST.

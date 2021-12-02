@@ -1,4 +1,4 @@
-const { Sequelize } = require('sequelize');
+const {Sequelize} = require('sequelize');
 const sequelize = require('../models');
 const Catalog = require('./catalogModel');
 
@@ -31,9 +31,15 @@ const Product = sequelize.define('product', {
     catalog_id: {
         type: Sequelize.INTEGER
 
-    }}, {
-        tableName: "product",
-        timestamps: false
-    });
+    },
+    hide: {
+        type: Sequelize.INTEGER
+    }
+}, {
+    tableName: "product",
+    timestamps: false
+});
+
+Product.belongsTo(Catalog, {foreignKey: `catalog_id`, targetKey: `id`})
 
 module.exports = Product;

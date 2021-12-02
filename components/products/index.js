@@ -10,5 +10,7 @@ router.get('/', productController.list);
 
 router.get('/create', productController.product_create_get);
 router.post('/create', productController.product_create_post);
+router.get('/update/:id', productController.product_update_get);
+router.get('/delete', productController.product_delete_get);
 
 module.exports = router;
