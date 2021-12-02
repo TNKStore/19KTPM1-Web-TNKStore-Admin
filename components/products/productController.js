@@ -128,6 +128,44 @@ exports.product_update_get = async function (req, res, next) {
 };
 
 // Handle product update on POST.
-exports.product_update_post = function (req, res) {
-    res.send('NOT IMPLEMENTED: product update POST');
-};
+exports.product_update_post = [
+    body('name', 'Title must not be empty.').trim().isLength({min: 1}).escape(),
+    body('amount', 'Author must not be empty.').trim().isLength({min: 1}).escape(),
+    body('price', 'Summary must not be empty.').trim().isLength({min: 1}).escape(),
+    body('category.*').escape(),
+
+    (req, res, next) => {
+
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+
+        // Create a Book object with escaped and trimmed data.
+        var product = new Product({
+            name: req.body.name,
+            amount: parseInt(req.body.amount),
+            price: parseInt(req.body.price),
+            catalog_id: parseInt(req.body.category),
+            id: parseInt(req.params.id)
+        });
+
+        if (!errors.isEmpty()) {
+            async.parallel({
+            }, function (err, results) {
+                if (err) {
+                    return next(err);
+                }
+                res.render('items/item-editor', {
+                    name: results.name,
+                    amount: results.amount,
+                    price: results.price,
+                    catalog_id: results.catalog_id,
+                    errors: errors.array()
+                });
+            });
+        } else {
+            product.save()
+                .then(_ => res.redirect('/items-list'))
+                .catch(err => next(err));
+        }
+    }
+];
