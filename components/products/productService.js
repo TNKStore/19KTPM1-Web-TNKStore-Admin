@@ -20,7 +20,7 @@ exports.getProductByID = id => Product.findOne({where: {id: id}})
 
 exports.deleteByID = async (id) => {
     const product = await this.getProductByID(id);
-    product.hide = false
+    product.hide = true
     return product.save()
 }
 
