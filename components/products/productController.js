@@ -39,6 +39,7 @@ exports.product_create_get = async function (req, res) {
 
     res.render('items/item-editor', {
         pageTitle: 'Create Product',
+        action: '/item-editor/create',
         catalog: catalog
     });
 };
@@ -119,6 +120,7 @@ exports.product_update_get = async function (req, res, next) {
         res.render('items/item-editor',
             {
                 pageTitle: "Update the product",
+                action: '/items-list/update/' + id,
                 product: product,
                 catalog: catalog
             })
