@@ -34,19 +34,12 @@ exports.list = async function (req, res, next) {
 }
 
 // Display product create form on GET.
-exports.product_create_get = function (req, res) {
-    async.parallel({
-        Product: function (callback) {
-            Catalog_id.find(callback);
-        },
-    }, function (err, results) {
-        if (err) {
-            return next(err);
-        }
-        res.render('items/item-editor', {
-            title: 'Create Product',
-            catalog_id: results.catalog_id
-        });
+exports.product_create_get = async function (req, res) {
+    const catalog = await catalogService.list
+
+    res.render('items/item-editor', {
+        pageTitle: 'Create Product',
+        catalog: catalog
     });
 };
 
