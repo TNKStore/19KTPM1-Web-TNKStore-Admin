@@ -232,18 +232,30 @@
                         <h3 class="title"> Add new item <span class="sparkline bar" data-type="bar"></span>
                         </h3>
                     </div>
-                    <form name="item">
+                    <form name="item" action="/item-editor/create" method="POST">
                         <div class="card card-block">
                             <div class="form-group row">
                                 <label class="col-sm-2 form-control-label text-xs-right"> Name: </label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control boxed" placeholder="">
+                                    <input type="text" class="form-control boxed" placeholder="" name="name">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-2 form-control-label text-xs-right"> Content: </label>
+                                <label class="col-sm-2 form-control-label text-xs-right"> Amount: </label>
                                 <div class="col-sm-10">
-                                    <div class="wyswyg">
+                                    <input type="text" class="form-control boxed" placeholder="" name="amount">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 form-control-label text-xs-right"> Price: </label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control boxed" placeholder="" name="price">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 form-control-label text-xs-right"> Description: </label>
+                                <div class="col-sm-10">
+                                    <div class="wyswyg" name="description"> 
                                         <div class="toolbar">
                                             <select class="ql-size">
                                                 <option value="small"></option>
@@ -341,18 +353,18 @@
                                             <button style="width: auto;" type="button" title="Image" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#modal-media">
                                                 <i class="fa fa-image"></i> Media </button>
                                         </div>
-                                        <div class="editor"> Hello World </div>
+                                        <div class="editor"> Add some description here ... </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-2 form-control-label text-xs-right"> Category: </label>
                                 <div class="col-sm-10">
-                                    <select class="c-select form-control boxed">
-                                        <option selected>Select Category</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                    <select class="c-select form-control boxed" name="category">
+                                        <option selected>Catalog ID</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
                                     </select>
                                 </div>
                             </div>

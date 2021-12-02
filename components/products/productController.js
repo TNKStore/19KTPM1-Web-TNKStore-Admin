@@ -1,4 +1,8 @@
 const productService = require('./productService');
+const { body,validationResult } = require('express-validator');
+const Catalog = require('../../models/catalogModel');
+const Product = require('../../models/productModel');
+const { result } = require('lodash');
 
 exports.list = async function(req, res, next) {
     let page = parseInt(req.query.page) || 1;
@@ -28,3 +32,104 @@ exports.list = async function(req, res, next) {
         next: pages[page] || false
      });
 }
+
+// Display product create form on GET.
+exports.product_create_get = function(req, res) {
+    async.parallel({
+        Product: function(callback) {
+            Catalog_id.find(callback);
+        },
+    }, function(err, results) {
+        if (err) { return next(err); }
+        res.render('items/item-editor', { 
+            title: 'Create Product',  
+            catalog_id: results.catalog_id });
+    });
+};
+
+exports.product_create_post = [
+    /*console.log(req.body);
+    res.send('NOT IMPLEMENTED: product delete POST');*/
+    body('name', 'Title must not be empty.').trim().isLength({ min: 1 }).escape(),
+    body('amount', 'Author must not be empty.').trim().isLength({ min: 1 }).escape(),
+    body('price', 'Summary must not be empty.').trim().isLength({ min: 1 }).escape(),
+    body('category.*').escape(),
+
+    (req, res, next) => {
+
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+
+        // Create a Book object with escaped and trimmed data.
+        var product = new Product({
+            name: req.body.name,
+            amount: parseInt(req.body.amount),
+            price: parseInt(req.body.price),
+            catalog_id: parseInt(req.body.category)
+           });
+
+        if (!errors.isEmpty()) {
+            // There are errors. Render form again with sanitized values/error messages.
+
+            // Get all authors and genres for form.
+            async.parallel({
+                /*authors: function(callback) {
+                    Author.find(callback);
+                },*/
+            }, function(err, results) {
+                if (err) { return next(err); }
+                res.render('items/item-editor', { 
+                    name: results.name,
+                    amount: results.amount, 
+                    price: results.price, 
+                    catalog_id: results.catalog_id,
+                    errors: errors.array() });
+            });
+            return;
+        }
+        else {
+            // Data from form is valid. Save book.
+            product.save(function (err) {
+                if (err) { return next(err); }
+                   //successful - redirect to new book record.
+                   res.redirect('/items-list');
+                });
+        }
+    }
+];
+
+// Display product delete form on GET.
+exports.product_delete_get = function(req, res, next) {
+
+    async.parallel({
+        products: function(callback) {
+            Product.findById(req.params.id).exec(callback)
+        },
+        authors_products: function(callback) {
+          product.find({ 'author': req.params.id }).exec(callback)
+        },
+    }, function(err, results) {
+        if (err) { return next(err); }
+        if (results.author==null) { // No results.
+            res.redirect('/catalog/authors');
+        }
+        // Successful, so render.
+        res.render('author_delete', { title: 'Delete Author', author: results.author, author_products: results.authors_products } );
+    });
+
+};
+
+// Handle product delete on POST.
+exports.product_delete_post = function(req, res) {
+    res.send('NOT IMPLEMENTED: product delete POST');
+};
+
+// Display product update form on GET.
+exports.product_update_get = function(req, res) {
+    res.send('NOT IMPLEMENTED: product update GET');
+};
+
+// Handle product update on POST.
+exports.product_update_post = function(req, res) {
+    res.send('NOT IMPLEMENTED: product update POST');
+};
