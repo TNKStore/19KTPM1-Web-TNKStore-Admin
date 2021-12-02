@@ -276,7 +276,7 @@
                         <label class="col-sm-2 form-control-label text-xs-right"> Category: </label>
                         <div class="col-sm-10">
                             <select class="c-select form-control boxed" name="category">
-                                <option selected>{{product.catalog.name}}</option>
+                                <option selected value="{{product.catalog.id}}">{{product.catalog.name}}</option>
                                 {{#each catalog}}
                                     <option value="{{id}}">{{name}}</option>
                                 {{/each}}

@@ -39,7 +39,7 @@ exports.product_create_get = async function (req, res) {
 
     res.render('items/item-editor', {
         pageTitle: 'Create Product',
-        action: '/item-editor/create',
+        action: '/items-list/create',
         catalog: catalog
     });
 };
@@ -136,23 +136,21 @@ exports.product_update_post = [
     body('price', 'Summary must not be empty.').trim().isLength({min: 1}).escape(),
     body('category.*').escape(),
 
-    (req, res, next) => {
+    async (req, res, next) => {
 
         // Extract the validation errors from a request.
         const errors = validationResult(req);
-
+        const id = parseInt(req.params.id);
         // Create a Book object with escaped and trimmed data.
-        var product = new Product({
-            name: req.body.name,
-            amount: parseInt(req.body.amount),
-            price: parseInt(req.body.price),
-            catalog_id: parseInt(req.body.category),
-            id: parseInt(req.params.id)
-        });
+        const product = await productService.getProductByID(id);
+
+        product.name = req.body.name;
+        product.amount = parseInt(req.body.amount);
+        product.price = parseInt(req.body.price);
+        product.catalog_id = parseInt(req.body.category);
 
         if (!errors.isEmpty()) {
-            async.parallel({
-            }, function (err, results) {
+            async.parallel({}, function (err, results) {
                 if (err) {
                     return next(err);
                 }
