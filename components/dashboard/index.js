@@ -3,9 +3,8 @@ const router = express.Router();
 
 
 /* GET home page. */
-
 router.get('/', function (req, res, next) {
-    res.redirect('/admin/login');
-})
+    res.render('index', {title: 'TNKStore'});
+});
 
 module.exports = router;

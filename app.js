@@ -6,9 +6,11 @@ const logger = require('morgan');
 const session = require("express-session");
 
 const indexRouter = require('./routes/index');
+const dashboardRouter = require('./components/dashboard');
 const usersRouter = require('./routes/users');
 const productRouter = require('./components/products');
 const adminRouter = require('./components/auth');
+const loggedInUserGuard = require('./middlewares/loggedInUserGuard')
 const passport = require('./passport');
 
 const app = express();
@@ -27,9 +29,15 @@ app.use(session({ secret: process.env.SESSION_SECRET }));
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(function (req, res, next) {
+  res.locals.user = req.user;
+  next();
+})
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/items-list', productRouter);
+app.use('/dashboard', loggedInUserGuard, dashboardRouter);
+app.use('/items-list', loggedInUserGuard, productRouter);
 app.use('/admin', adminRouter);
 //app.use('/item-editor', productRouter);
 

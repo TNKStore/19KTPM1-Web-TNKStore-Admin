@@ -7,6 +7,12 @@ const Admin = sequelize.define('admin', {
         type: Sequelize.STRING,
         primaryKey: true
     },
+    first_name: {
+        type: Sequelize.STRING,
+    },
+    last_name: {
+        type: Sequelize.STRING,
+    },
     password: {
         type: Sequelize.STRING
     }}, {

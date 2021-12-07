@@ -5,12 +5,12 @@ const passport = require('../../passport');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-    res.redirect('admin/login');
+    res.redirect('/admin/login');
 });
 
 router.get('/login', authController.login);
 router.post('/login', passport.authenticate('local', {
-    successRedirect: '/',
+    successRedirect: '/dashboard',
     failureRedirect: '/admin/login?wrong-password',
 }));
 

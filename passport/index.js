@@ -17,11 +17,10 @@ passport.use(new LocalStrategy(
 ));
 
 passport.serializeUser(function(user, done) {
-    done(null, user.username);
+    done(null, {username: user.username, first_name: user.first_name});
   });
   
-passport.deserializeUser(async function(username, done) {
-    const user = await adminService.findByUsername(username);
+passport.deserializeUser(async function(user, done) {
     done(null, user);
   });
 
