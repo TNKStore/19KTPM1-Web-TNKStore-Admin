@@ -117,8 +117,7 @@ exports.product_update_get = async function (req, res, next) {
 
     if (id) {
         const product = await productService.getProductByIDWithCatalog(id);
-        const catalog = await catalogService.list
-
+        const catalog = await catalogService.list;
         res.render('items/item-editor',
             {
                 pageTitle: "Update the product",
