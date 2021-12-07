@@ -15,7 +15,10 @@
             </header>
             <div class="auth-content">
                 <p class="text-center">LOGIN TO CONTINUE</p>
-                <form id="login-form" action="/index" method="POST" novalidate="">
+                <form id="login-form" action="#" method="POST" novalidate="">
+                    {{#if wrongPassword}}
+                    Username or password is in incorrect
+                    {{/if}}
                     <div class="form-group">
                         <label for="username">Username</label>
                         <input type="email" class="form-control underlined" name="username" id="username"

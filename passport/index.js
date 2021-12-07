@@ -1,7 +1,7 @@
 const passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy;
 
-const adminService = require('../components/auth/adminService');
+const adminService = require('../components/auth/authService');
 
 passport.use(new LocalStrategy(
   async function(username, password, done) {
@@ -20,10 +20,9 @@ passport.serializeUser(function(user, done) {
     done(null, user.username);
   });
   
-passport.deserializeUser(function(username, done) {
-    adminService.findByUsername(username, function(err, user) {
-      done(err, user);
-    });
+passport.deserializeUser(async function(username, done) {
+    const user = await adminService.findByUsername(username);
+    done(null, user);
   });
 
 module.exports = passport;

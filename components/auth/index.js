@@ -13,6 +13,8 @@ router.post('/login', passport.authenticate('local', {
     successRedirect: '/',
     failureRedirect: '/admin/login?wrong-password',
 }));
+
+router.get('/logout', authController.logout);
 //router.post('/create', productController.product_create_post);
 
 //router.get('/update/:id', productController.product_update_get);
