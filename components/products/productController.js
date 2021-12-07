@@ -29,18 +29,20 @@ exports.list = async function (req, res, next) {
         products,
         pages,
         previous: pages[page - 2] || false,
-        next: pages[page] || false
+        next: pages[page] || false,
+        title: 'TNKStore'
     });
 }
 
 // Display product create form on GET.
 exports.product_create_get = async function (req, res) {
-    const catalog = await catalogService.list
+    const catalog = await catalogService.list;
 
     res.render('items/item-editor', {
         pageTitle: 'Create Product',
         action: '/items-list/create',
-        catalog: catalog
+        catalog: catalog,
+        title: 'Create Product'
     });
 };
 
