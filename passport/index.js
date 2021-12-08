@@ -9,7 +9,10 @@ passport.use(new LocalStrategy(
     const user = await adminService.findByUsername(username);
     if (!user)
         return done(null, false, { message: 'Incorrect username.'});
-    if (!adminService.validPassword(password, user)) {
+
+    const isValid = await adminService.validPassword(password, user);
+    //if (!adminService.validPassword(password, user)) {  // use this for initial admin
+    if (!isValid) {
         return done(null, false, { message: 'Incorrect password.' });
     }
     return done(null, user);

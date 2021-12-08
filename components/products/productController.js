@@ -47,8 +47,6 @@ exports.product_create_get = async function (req, res) {
 };
 
 exports.product_create_post = [
-    /*console.log(req.body);
-    res.send('NOT IMPLEMENTED: product delete POST');*/
     body('name', 'Title must not be empty.').trim().isLength({min: 1}).escape(),
     body('amount', 'Author must not be empty.').trim().isLength({min: 1}).escape(),
     body('price', 'Summary must not be empty.').trim().isLength({min: 1}).escape(),
