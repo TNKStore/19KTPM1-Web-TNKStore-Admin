@@ -9,7 +9,8 @@ const indexRouter = require('./routes/index');
 const dashboardRouter = require('./components/dashboard');
 const usersRouter = require('./routes/users');
 const productRouter = require('./components/products');
-const adminRouter = require('./components/auth');
+const authRouter = require('./components/auth');
+const adminRouter = require('./components/admin');
 const loggedInUserGuard = require('./middlewares/loggedInUserGuard')
 const passport = require('./passport');
 
@@ -38,7 +39,8 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/dashboard', loggedInUserGuard, dashboardRouter);
 app.use('/items-list', loggedInUserGuard, productRouter);
-app.use('/admin', adminRouter);
+app.use('/admin-list', loggedInUserGuard, adminRouter);
+app.use('/admin', authRouter);
 //app.use('/item-editor', productRouter);
 
 // catch 404 and forward to error handler
