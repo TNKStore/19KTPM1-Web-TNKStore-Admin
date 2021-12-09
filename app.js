@@ -40,8 +40,8 @@ app.use('/', indexRouter);
 app.use('/admin', authRouter);
 app.use('/users', usersRouter);
 app.use('/account', loggedInUserGuard, accountRouter);
-app.use('/dashboard', loggedInUserGuard, dashboardRouter);
-app.use('/items-list', loggedInUserGuard, productRouter);
+app.use('/dashboard', dashboardRouter);
+app.use('/items-list', productRouter);
 app.use('/admin-list',  adminRouter);
 
 //app.use('/item-editor', productRouter);
