@@ -563,4 +563,39 @@ $(function () {
     })
 }), $(function () {
     $("body").addClass("loaded")
+}), $(function () {
+    if (!$("#admin-register").length) return !1;
+    var e = {
+        rules: {
+            username: {required: !0, email: !0},
+            password: {
+                required: !0
+            },
+            first_name: {
+                required: !0
+            },
+            last_name: {
+                required: !0
+            },
+            rePassword: {
+                equalTo: "#password"
+            }
+        },
+        messages: {
+            email1: {required: "Please enter email address", email: "Please enter a valid email address"},
+            password: {
+                required: "Please enter password"
+            },
+            first_name: {
+                required: "Please enter first name"
+            },
+            last_name: {
+                required: "Please enter last name"
+            },
+            rePassword: {
+                equalTo: "Password and confirm password are not match"
+            }
+        }
+    };
+    $.extend(e, config.validations), $("#admin-register").validate(e)
 }), NProgress.start(), NProgress.done();
