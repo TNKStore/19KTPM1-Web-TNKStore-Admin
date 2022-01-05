@@ -8,7 +8,7 @@ router.get('/', accountController.info);
 
 //router.post('', productController.list);
 
-//router.get('/create', productController.product_create_get);
-//router.post('/create', productController.product_create_post);
+router.post('/update', accountController.changeAccountDetail);
+router.post('/change-password', accountController.changePassword);
 
 module.exports = router;

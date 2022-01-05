@@ -13,3 +13,7 @@ exports.validPassword = (password, user) => {
     //return user.password === password;  // use this for initial admin
     return bcrypt.compare(password, user.password);
 }
+
+exports.checkLock = (user) => {
+    return user.locked === 0;
+}

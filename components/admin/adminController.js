@@ -14,6 +14,7 @@ exports.list = async function (req, res, next) {
     const adminList = await adminService.list(page, itemPerPage);
     const admin = adminList.rows;
     const numPages = Math.ceil(adminList.count / itemPerPage);
+    const error = (req.query['error'] !== undefined);
     //if (page> numPages) {
     //next(createError(404))
     //}
@@ -31,7 +32,8 @@ exports.list = async function (req, res, next) {
         pages,
         previous: pages[page - 2] || false,
         next: pages[page] || false,
-        title: 'TNKStore'
+        title: 'TNKStore',
+        error
     });
 }
 
@@ -83,3 +85,17 @@ exports.admin_create_post = [
         }
     }
 ];
+
+exports.admin_lock_get = async function (req, res, next) {
+    const username = req.query.username;
+    console.log("This is " + req.user.username)
+    if (username == req.user.username) {
+        res.redirect('/admin-list?error');
+    }
+    else {
+        console.log("This is " + username)
+        adminService.lockByUsername(username)
+            .then(_ => res.redirect('/admin-list'))
+            .catch(err => next(err))
+    }
+};

@@ -1,16 +1,20 @@
 const passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy;
 
-const adminService = require('../components/auth/authService');
+const authService = require('../components/auth/authService');
 
 passport.use(new LocalStrategy(
   async function(username, password, done) {
     console.log('passport-local');
-    const user = await adminService.findByUsername(username);
+    const user = await authService.findByUsername(username);
     if (!user)
         return done(null, false, { message: 'Incorrect username.'});
 
-    const isValid = await adminService.validPassword(password, user);
+    const isUnlock = authService.checkLock(user);
+    if (!isUnlock) {
+      return done(null, false, { message: 'Account locked.' });
+    } 
+    const isValid = await authService.validPassword(password, user);
     //if (!adminService.validPassword(password, user)) {  // use this for initial admin
     if (!isValid) {
         return done(null, false, { message: 'Incorrect password.' });

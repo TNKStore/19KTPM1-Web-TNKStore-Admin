@@ -15,7 +15,11 @@ const Admin = sequelize.define('admin', {
     },
     password: {
         type: Sequelize.STRING
-    }}, {
+    }, 
+    locked: {
+        type: Sequelize.INTEGER
+    }
+}, {
         tableName: "admin",
         timestamps: false
     });

@@ -1,3 +1,5 @@
+const passport = require('../../passport');
+
 exports.login = (req, res, next) => {
     if (req.user) {
         return res.redirect('/')

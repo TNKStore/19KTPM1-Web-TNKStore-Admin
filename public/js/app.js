@@ -598,4 +598,38 @@ $(function () {
         }
     };
     $.extend(e, config.validations), $("#admin-register").validate(e)
+}),$(function () {
+    if (!$("#account-update").length) return !1;
+    var e = {
+        rules: {
+            first_name: "required",
+            last_name: "required"
+        },
+        messages: {
+            first_name: {
+                required: "Please enter first name"
+            },
+            last_name: {
+                required: "Please enter last name"
+            }
+        }
+    };
+    $.extend(e, config.validations), $("#account-update").validate(e)
+}), $(function () {
+    if (!$("#change-password-form").length) return !1;
+    var e = {
+        rules: {
+            password: "required",
+            newPassword: "required",
+            rePassword: {equalTo: "#new-password"}
+        },
+        messages: {
+            password: "Please enter current password",
+            newPassword: {
+                required: "Please enter new password",
+            },
+            rePassword: {equalTo: "New password and confirm password are not match"}
+        }
+    };
+    $.extend(e, config.validations), $("#change-password-form").validate(e)
 }), NProgress.start(), NProgress.done();

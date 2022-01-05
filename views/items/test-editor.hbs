@@ -45,21 +45,60 @@
 
             <div class="form-group row">
                 <label class="col-sm-2 form-control-label text-xs-right"> Image URL: </label>
-                <div class="col-sm-5">
-                    <input type="text" class="form-control boxed" placeholder="" name="img" value={{product.img}}>      
+                <div class="col-sm-10">
+                    <script src="https://dl.dropboxusercontent.com/s/nvklmhq3kw4j9pq/jquerylasted.js?dl=0"></script>
+                    <input type="file" accept="image/*" id="myLink" value = "">
+                    <script>
+                        $('document').ready(function () {
+                            $('input[type=file]').on('change', function () {
+                                var $files = $(this).get(0).files;
+                                if ($files.length) {
+                                    if ($files[0].size > $(this).data('max-size') * 1024) {
+                                        console.log('Vui lòng chọn file có dung lượng nhỏ hơn!');
+                                        return false;
+                                    }
+
+
+                                    var apiUrl = 'https://api.imgur.com/3/image';
+                                    var apiKey = '68dd3a6d4e60623';
+                                    var settings = {
+                                        async: false,
+                                        crossDomain: true,
+                                        processData: false,
+                                        contentType: false,
+                                        type: 'POST',
+                                        url: apiUrl,
+                                        headers: {
+                                            Authorization: 'Client-ID ' + apiKey,
+                                            Accept: 'application/json',
+                                        },
+                                        mimeType: 'multipart/form-data',
+                                    };
+                                    var formData = new FormData();
+                                    formData.append('image', $files[0]);
+                                    settings.data = formData;
+                                    $.ajax(settings).done(function (response) {
+                                        console.log(response);
+                                        var obj = JSON.parse(response);
+                                        document.getElementById("myLink").value = obj.data.link;
+                                    });
+                                }
+                            });
+                        });
+                    </script>
                 </div>
             </div>
-            <div class="form-group row">
+            <!--<div class="form-group row">
                 <label class="col-sm-2 form-control-label text-xs-right"> Images: </label>
                 <div class="col-sm-10">
                     <div class="images-container">
                         <div class="image-container">
-                            <img class="image" src="{{product.img}}" alt="Image" />
+                            <img class="image" src="{{obj.data.link}}" alt="Image" />
 
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
             <div class="form-group row">
                 <div class="col-sm-10 col-sm-offset-2">
                     <button type="submit" class="btn btn-primary"> Submit</button>
@@ -217,7 +256,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-< div class="modal fade" id="confirm-modal">
+<div class="modal fade" id="confirm-modal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -235,7 +274,6 @@
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
-    </div>
-    < !-- /.modal -->
-        </div>
-        </div>
+</div><!-- /.modal -->
+</div>
+</div>

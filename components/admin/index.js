@@ -11,4 +11,6 @@ router.get('/', adminController.list);
 router.get('/create', adminController.admin_create_get);
 router.post('/create', adminController.admin_create_post);
 
+router.get('/lock', adminController.admin_lock_get);
+
 module.exports = router;

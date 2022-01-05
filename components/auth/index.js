@@ -9,6 +9,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/login', authController.login);
+//router.post('/login', authController.handleLogin);
 router.post('/login', passport.authenticate('local', {
     successRedirect: '/dashboard',
     failureRedirect: '/admin/login?wrong-password',

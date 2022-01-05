@@ -5,6 +5,7 @@ const Catalog = require('../../models/catalogModel');
 const Product = require('../../models/productModel');
 const {result} = require('lodash');
 const createError = require("http-errors");
+const async = require('async');
 
 exports.list = async function (req, res, next) {
     let page = parseInt(req.query.page) || 1;
@@ -46,6 +47,17 @@ exports.product_create_get = async function (req, res) {
     });
 };
 
+exports.product_create_test_get = async function (req, res) {
+    const catalog = await catalogService.list;
+
+    res.render('items/test-editor', {
+        pageTitle: 'Create Product',
+        action: '/items-list/test',
+        catalog: catalog,
+        title: 'Create Product'
+    });
+};
+
 exports.product_create_post = [
     body('name', 'Title must not be empty.').trim().isLength({min: 1}).escape(),
     body('amount', 'Author must not be empty.').trim().isLength({min: 1}).escape(),
@@ -56,13 +68,13 @@ exports.product_create_post = [
 
         // Extract the validation errors from a request.
         const errors = validationResult(req);
-
+        console.log(req.body.img);
         // Create a Book object with escaped and trimmed data.
         var product = new Product({
             name: req.body.name,
             amount: parseInt(req.body.amount),
             price: parseInt(req.body.price),
-            catalog_id: parseInt(req.body.category)
+            catalog_id: parseInt(req.body.category),
         });
 
         if (!errors.isEmpty()) {

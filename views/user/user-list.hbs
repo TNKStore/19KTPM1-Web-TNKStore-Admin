@@ -4,9 +4,7 @@
                 <div class="title-block">
                     <div class="row">
                         <div class="col-md-6">
-                            <h3 class="title"> Admin <a href="/admin-list/create"
-                                                        class="btn btn-primary btn-sm rounded-s"> Add
-                                New </a>
+                            <h3 class="title"> User
                                 <!--
          -->
                                 <div class="action dropdown">
@@ -22,10 +20,7 @@
                                     </div>
                                 </div>
                             </h3>
-                            <p class="title-description"> List of admin </p>
-                            {{#if error}}
-                            <span class="has-error">Cannot block yourseft</span>
-                            {{/if}}
+                            <p class="title-description"> List of user </p>
                         </div>
                     </div>
                 </div>
@@ -54,7 +49,7 @@
                             </div>
                             <div class="item-col item-col-header item-col-title">
                                 <div>
-                                    <span>Username</span>
+                                    <span>Email</span>
                                 </div>
                             </div>
                             <div class="item-col item-col-header item-col-sales">
@@ -69,6 +64,11 @@
                             </div>
                             <div class="item-col item-col-header item-col-author">
                                 <div class="no-overflow">
+                                    <span>Phone</span>
+                                </div>
+                            </div>
+                            <div class="item-col item-col-header item-col-date">
+                                <div>
                                     <span>Status</span>
                                 </div>
                             </div>
@@ -76,7 +76,7 @@
                             </div>
                         </div>
                     </li>
-                    {{#each admin}}
+                    {{#each users}}
                         <li class="item">
                             <div class="item-row">
                                 <div class="item-col fixed item-col-check">
@@ -88,8 +88,8 @@
                                 <div class="item-col fixed pull-left item-col-title">
                                     <div class="item-heading">Username</div>
                                     <div>
-                                        <a class="">
-                                            <h4 class="item-title"> {{username}} </h4>
+                                        <a href="/user-list/{{id}}" class="">
+                                            <h4 class="item-title"> {{email}} </h4>
                                         </a>
                                     </div>
                                 </div>
@@ -104,6 +104,12 @@
                                     </div>
                                 </div>
                                 <div class="item-col item-col-author">
+                                    <div class="item-heading">Phone</div>
+                                    <div class="no-overflow">
+                                        <a>{{phone}}</a>
+                                    </div>
+                                </div>
+                                <div class="item-col item-col-date">
                                     <div class="item-heading">Status</div>
                                     <div class="no-overflow">
                                         {{#if locked}}
@@ -111,7 +117,6 @@
                                         {{else}}
                                         <a>Unlocked</a>
                                         {{/if}}
-
                                     </div>
                                 </div>
                                 <div class="item-col fixed item-col-actions-dropdown">
@@ -127,7 +132,7 @@
                                         <div class="item-actions-block">
                                             <ul class="item-actions-list">
                                                 <li>
-                                                    <a class="remove" href="/admin-list/lock?username={{username}}">
+                                                    <a class="remove" href="/user-list/lock?id={{id}}">
                                                     <i class="fa fa-trash-o "></i>
                                                     </a>
                                                 </li>
