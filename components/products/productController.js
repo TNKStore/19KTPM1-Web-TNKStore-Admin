@@ -71,10 +71,10 @@ exports.product_create_post = [
         const errors = validationResult(req);
         console.log(req.body.img);
 
+        // handle datetime
         Date.prototype.today = function () {
             return ((this.getDate() < 10) ? "0" : "") + this.getDate() + "/" + (((this.getMonth() + 1) < 10) ? "0" : "") + (this.getMonth() + 1) + "/" + this.getFullYear();
         }
-
         Date.prototype.timeNow = function () {
             return ((this.getHours() < 10) ? "0" : "") + this.getHours() + ":" + ((this.getMinutes() < 10) ? "0" : "") + this.getMinutes() + ":" + ((this.getSeconds() < 10) ? "0" : "") + this.getSeconds();
         }
@@ -157,12 +157,14 @@ exports.product_update_get = async function (req, res, next) {
     if (id) {
         const product = await productService.getProductByIDWithCatalog(id);
         const catalog = await catalogService.list;
+        const image = await productService.getProductImage(id);
         res.render('items/item-editor',
             {
                 pageTitle: "Update the product",
                 action: '/items-list/update/' + id,
                 product: product,
-                catalog: catalog
+                catalog: catalog,
+                image: image
             })
     } else {
         next(createError(404))
@@ -177,17 +179,28 @@ exports.product_update_post = [
     body('category.*').escape(),
 
     async (req, res, next) => {
+        // handle datetime
+        Date.prototype.today = function () {
+            return ((this.getDate() < 10) ? "0" : "") + this.getDate() + "/" + (((this.getMonth() + 1) < 10) ? "0" : "") + (this.getMonth() + 1) + "/" + this.getFullYear();
+        }
+        Date.prototype.timeNow = function () {
+            return ((this.getHours() < 10) ? "0" : "") + this.getHours() + ":" + ((this.getMinutes() < 10) ? "0" : "") + this.getMinutes() + ":" + ((this.getSeconds() < 10) ? "0" : "") + this.getSeconds();
+        }
 
         // Extract the validation errors from a request.
         const errors = validationResult(req);
         const id = parseInt(req.params.id);
         // Create a Book object with escaped and trimmed data.
         const product = await productService.getProductByID(id);
+        const image = await productService.getProductImage(id);
 
         product.name = req.body.name;
+        product.catalog_id = parseInt(req.body.category);
+        product.description = req.body.description,
         product.amount = parseInt(req.body.amount);
         product.price = parseInt(req.body.price);
-        product.catalog_id = parseInt(req.body.category);
+        product.update_at = new Date().today() + " @ " + new Date().timeNow();
+        image.url = req.body.img;
 
         if (!errors.isEmpty()) {
             async.parallel({}, function (err, results) {
@@ -196,15 +209,20 @@ exports.product_update_post = [
                 }
                 res.render('items/item-editor', {
                     name: results.name,
+                    catalog_id: results.catalog_id,
+                    description: results.description,
                     amount: results.amount,
                     price: results.price,
-                    catalog_id: results.catalog_id,
+                    update_at: results.update_at,
+                    url: results.img,
                     errors: errors.array()
                 });
             });
         } else {
             product.save()
-                .then(_ => res.redirect('/items-list'))
+                .then(
+                    image.save()
+                        .then(_ => res.redirect('/items-list')))
                 .catch(err => next(err));
         }
     }

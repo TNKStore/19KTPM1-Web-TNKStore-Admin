@@ -1,5 +1,6 @@
 const Product = require('../../models/productModel');
-const Catalog = require('../../models/catalogModel')
+const Catalog = require('../../models/catalogModel');
+const Image = require('../../models/image')
 
 exports.list = (page, itemPerPage) => Product.findAndCountAll({
     offset: ((itemPerPage * page) - itemPerPage),
@@ -8,7 +9,7 @@ exports.list = (page, itemPerPage) => Product.findAndCountAll({
 
 exports.listWithCatalog = (page, itemPerPage) => Product.findAndCountAll(
     {
-        where: {hide: 0},
+        where: { hide: 0 },
         offset: ((itemPerPage * page) - itemPerPage),
         limit: itemPerPage,
         include: [{
@@ -16,7 +17,7 @@ exports.listWithCatalog = (page, itemPerPage) => Product.findAndCountAll(
         }]
     })
 
-exports.getProductByID = id => Product.findOne({where: {id: id}})
+exports.getProductByID = id => Product.findOne({ where: { id: id } })
 
 exports.deleteByID = async (id) => {
     const product = await this.getProductByID(id);
@@ -26,8 +27,13 @@ exports.deleteByID = async (id) => {
 
 exports.getProductByIDWithCatalog = id => Product.findOne(
     {
-        where: {id: id},
+        where: { id: id },
         include: [{
             model: Catalog
         }]
+    })
+
+exports.getProductImage = id => Image.findOne(
+    {
+        where: { product_id: id }
     })
