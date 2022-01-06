@@ -48,17 +48,6 @@ exports.product_create_get = async function (req, res) {
     });
 };
 
-exports.product_create_test_get = async function (req, res) {
-    const catalog = await catalogService.list;
-
-    res.render('items/test-editor', {
-        pageTitle: 'Create Product',
-        action: '/items-list/test',
-        catalog: catalog,
-        title: 'Create Product'
-    });
-};
-
 exports.product_create_post = [
     body('name', 'Title must not be empty.').trim().isLength({ min: 1 }).escape(),
     body('amount', 'Author must not be empty.').trim().isLength({ min: 1 }).escape(),
