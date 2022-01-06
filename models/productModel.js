@@ -5,32 +5,35 @@ const Catalog = require('./catalogModel');
 const Product = sequelize.define('product', {
     id: {
         type: Sequelize.INTEGER,
-        primaryKey: true
+        primaryKey: true,
+        autoIncrement: true
     },
     name: {
+        type: Sequelize.STRING
+    },
+    catalog_id: {
+        type: Sequelize.INTEGER
+    },
+    description: {
         type: Sequelize.STRING
     },
     amount: {
         type: Sequelize.INTEGER
     },
-    img: {
-        type: Sequelize.STRING
-    },
     price: {
         type: Sequelize.INTEGER
     },
-    old_price: {
+    amount_view: {
         type: Sequelize.INTEGER
+    },
+    amount_sold: {
+        type: Sequelize.INTEGER
+    },
+    created_at: {
+        type: Sequelize.DATE
     },
     update_at: {
         type: Sequelize.DATE
-    },
-    description: {
-        type: Sequelize.STRING
-    },
-    catalog_id: {
-        type: Sequelize.INTEGER
-
     },
     hide: {
         type: Sequelize.INTEGER

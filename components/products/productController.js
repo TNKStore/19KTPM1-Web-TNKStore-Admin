@@ -1,9 +1,10 @@
 const productService = require('./productService');
 const catalogService = require('./catalogService');
-const {body, validationResult} = require('express-validator');
+const { body, validationResult } = require('express-validator');
 const Catalog = require('../../models/catalogModel');
 const Product = require('../../models/productModel');
-const {result} = require('lodash');
+const Image = require('../../models/image');
+const { result } = require('lodash');
 const createError = require("http-errors");
 const async = require('async');
 
@@ -59,9 +60,9 @@ exports.product_create_test_get = async function (req, res) {
 };
 
 exports.product_create_post = [
-    body('name', 'Title must not be empty.').trim().isLength({min: 1}).escape(),
-    body('amount', 'Author must not be empty.').trim().isLength({min: 1}).escape(),
-    body('price', 'Summary must not be empty.').trim().isLength({min: 1}).escape(),
+    body('name', 'Title must not be empty.').trim().isLength({ min: 1 }).escape(),
+    body('amount', 'Author must not be empty.').trim().isLength({ min: 1 }).escape(),
+    body('price', 'Summary must not be empty.').trim().isLength({ min: 1 }).escape(),
     body('category.*').escape(),
 
     (req, res, next) => {
@@ -69,12 +70,27 @@ exports.product_create_post = [
         // Extract the validation errors from a request.
         const errors = validationResult(req);
         console.log(req.body.img);
-        // Create a Book object with escaped and trimmed data.
+
+        Date.prototype.today = function () {
+            return ((this.getDate() < 10) ? "0" : "") + this.getDate() + "/" + (((this.getMonth() + 1) < 10) ? "0" : "") + (this.getMonth() + 1) + "/" + this.getFullYear();
+        }
+
+        Date.prototype.timeNow = function () {
+            return ((this.getHours() < 10) ? "0" : "") + this.getHours() + ":" + ((this.getMinutes() < 10) ? "0" : "") + this.getMinutes() + ":" + ((this.getSeconds() < 10) ? "0" : "") + this.getSeconds();
+        }
+
+        // Create a Product object
         var product = new Product({
             name: req.body.name,
+            catalog_id: parseInt(req.body.category),
+            description: req.body.description,
             amount: parseInt(req.body.amount),
             price: parseInt(req.body.price),
-            catalog_id: parseInt(req.body.category),
+            amount_view: 0,
+            amount_sold: 0,
+            created_at: new Date().today() + " @ " + new Date().timeNow(),
+            update_at: new Date().today() + " @ " + new Date().timeNow(),
+            hide: 0,
         });
 
         if (!errors.isEmpty()) {
@@ -82,25 +98,38 @@ exports.product_create_post = [
 
             // Get all authors and genres for form.
             async.parallel({
-                /*authors: function(callback) {
-                    Author.find(callback);
-                },*/
             }, function (err, results) {
                 if (err) {
                     return next(err);
                 }
                 res.render('items/item-editor', {
                     name: results.name,
-                    amount: results.amount,
-                    price: results.price,
-                    catalog_id: results.catalog_id,
+                    catalog_id: parseInt(results.category),
+                    description: results.description,
+                    amount: parseInt(results.amount),
+                    price: parseInt(results.price),
+                    amount_view: 0,
+                    amount_sold: 0,
+                    created_at: new Date().today() + " @ " + new Date().timeNow(),
+                    update_at: new Date().today() + " @ " + new Date().timeNow(),
+                    hide: 0,
                     errors: errors.array()
                 });
             });
         } else {
-            // Data from form is valid. Save book.
-            product.save()//successful - redirect to new book record.
-                .then(_ => res.redirect('/items-list'))
+            // save Product
+            product.save()
+                .then(
+                    result => {
+                        var image = new Image({
+                            product_id: result.id,
+                            url: req.body.img
+                        });
+                        image.save()
+                            .then(_ => res.redirect('/items-list'))
+                            .catch(err => next(err));
+                    },
+                )
                 .catch(err => next(err));
         }
     }
@@ -142,9 +171,9 @@ exports.product_update_get = async function (req, res, next) {
 
 // Handle product update on POST.
 exports.product_update_post = [
-    body('name', 'Title must not be empty.').trim().isLength({min: 1}).escape(),
-    body('amount', 'Author must not be empty.').trim().isLength({min: 1}).escape(),
-    body('price', 'Summary must not be empty.').trim().isLength({min: 1}).escape(),
+    body('name', 'Title must not be empty.').trim().isLength({ min: 1 }).escape(),
+    body('amount', 'Author must not be empty.').trim().isLength({ min: 1 }).escape(),
+    body('price', 'Summary must not be empty.').trim().isLength({ min: 1 }).escape(),
     body('category.*').escape(),
 
     async (req, res, next) => {
