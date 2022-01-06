@@ -1,6 +1,6 @@
 const Product = require('../../models/productModel');
 const Catalog = require('../../models/catalogModel');
-const Image = require('../../models/image')
+const Image = require('../../models/image');
 
 exports.list = (page, itemPerPage) => Product.findAndCountAll({
     offset: ((itemPerPage * page) - itemPerPage),
@@ -31,9 +31,4 @@ exports.getProductByIDWithCatalog = id => Product.findOne(
         include: [{
             model: Catalog
         }]
-    })
-
-exports.getProductImage = id => Image.findOne(
-    {
-        where: { product_id: id }
     })

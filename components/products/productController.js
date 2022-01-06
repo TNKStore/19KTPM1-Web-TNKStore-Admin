@@ -1,5 +1,6 @@
 const productService = require('./productService');
 const catalogService = require('./catalogService');
+const imageService = require('./imageService');
 const { body, validationResult } = require('express-validator');
 const Catalog = require('../../models/catalogModel');
 const Product = require('../../models/productModel');
@@ -58,7 +59,6 @@ exports.product_create_post = [
 
         // Extract the validation errors from a request.
         const errors = validationResult(req);
-        console.log(req.body.img);
 
         // handle datetime
         Date.prototype.today = function () {
@@ -67,7 +67,7 @@ exports.product_create_post = [
         Date.prototype.timeNow = function () {
             return ((this.getHours() < 10) ? "0" : "") + this.getHours() + ":" + ((this.getMinutes() < 10) ? "0" : "") + this.getMinutes() + ":" + ((this.getSeconds() < 10) ? "0" : "") + this.getSeconds();
         }
-
+        console.log(req.body.img);
         // Create a Product object
         var product = new Product({
             name: req.body.name,
@@ -146,7 +146,7 @@ exports.product_update_get = async function (req, res, next) {
     if (id) {
         const product = await productService.getProductByIDWithCatalog(id);
         const catalog = await catalogService.list;
-        const image = await productService.getProductImage(id);
+        const image = await imageService.getProductImage(id);
         res.render('items/item-editor',
             {
                 pageTitle: "Update the product",

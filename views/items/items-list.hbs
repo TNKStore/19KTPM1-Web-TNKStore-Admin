@@ -49,11 +49,11 @@
                                     <span></span>
                                 </label>
                             </div>
-                            <div class="item-col item-col-header fixed item-col-img md">
+                            <!--<div class="item-col item-col-header fixed item-col-img md">
                                 <div>
                                     <span>Image</span>
                                 </div>
-                            </div>
+                            </div>-->
                             <div class="item-col item-col-header item-col-title">
                                 <div>
                                     <span>Name</span>
@@ -76,12 +76,12 @@
                             </div>
                             <div class="item-col item-col-header item-col-author">
                                 <div class="no-overflow">
-                                    <span>Author</span>
+                                    <span>View</span>
                                 </div>
                             </div>
                             <div class="item-col item-col-header item-col-date">
                                 <div>
-                                    <span>Published</span>
+                                    <span>Sold</span>
                                 </div>
                             </div>
                             <div class="item-col item-col-header fixed item-col-actions-dropdown">
@@ -97,15 +97,15 @@
                                         <span></span>
                                     </label>
                                 </div>
-                                <div class="item-col fixed item-col-img md">
+                                <!--<div class="item-col fixed item-col-img md">
                                     <a href="/items-list/update/{{id}}">
                                         <div class="item-img rounded" style="background-image: url({{img}})"></div>
                                     </a>
-                                </div>
+                                </div>-->
                                 <div class="item-col fixed pull-left item-col-title">
                                     <div class="item-heading">Name</div>
                                     <div>
-                                        <a class="">
+                                        <a href="/items-list/update/{{id}}" class="">
                                             <h4 class="item-title"> {{name}} </h4>
                                         </a>
                                     </div>
@@ -127,14 +127,14 @@
                                     </div>
                                 </div>
                                 <div class="item-col item-col-author">
-                                    <div class="item-heading">Author</div>
+                                    <div class="item-heading">View</div>
                                     <div class="no-overflow">
-                                        <a>Admin</a>
+                                        <a>{{amount_view}}</a>
                                     </div>
                                 </div>
                                 <div class="item-col item-col-date">
-                                    <div class="item-heading">Published</div>
-                                    <div class="no-overflow"> 21 SEP 10:45</div>
+                                    <div class="item-heading">Sold</div>
+                                    <div class="no-overflow"> {{amount_sold}}</div>
                                 </div>
                                 <div class="item-col fixed item-col-actions-dropdown">
                                     <div class="item-actions-dropdown">

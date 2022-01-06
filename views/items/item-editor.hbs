@@ -46,7 +46,48 @@
             <div class="form-group row">
                 <label class="col-sm-2 form-control-label text-xs-right"> Image URL: </label>
                 <div class="col-sm-5">
-                    <input type="text" class="form-control boxed" placeholder="" name="img" value={{image.url}}>      
+                    <!--<input type="text" class="form-control boxed" placeholder="" name="img" value={{image.url}}>-->
+                    <script src="https://dl.dropboxusercontent.com/s/nvklmhq3kw4j9pq/jquerylasted.js?dl=0"></script>
+                    <input type="file" accept="image/*">
+                    <input id ="data" type="text" class="form-control boxed" placeholder="" disabled name="img" value={{image.url}}>
+                    <script>
+                        $('document').ready(function () {
+                            $('input[type=file]').on('change', function () {
+                                var $files = $(this).get(0).files;
+                                if ($files.length) {
+                                    if ($files[0].size > $(this).data('max-size') * 1024) {
+                                        console.log('Vui lòng chọn file có dung lượng nhỏ hơn!');
+                                        return false;
+                                    }
+
+                                    var apiUrl = 'https://api.imgur.com/3/image';
+                                    var apiKey = '68dd3a6d4e60623';
+                                    var settings = {
+                                        async: false,
+                                        crossDomain: true,
+                                        processData: false,
+                                        contentType: false,
+                                        type: 'POST',
+                                        url: apiUrl,
+                                        headers: {
+                                            Authorization: 'Client-ID ' + apiKey,
+                                            Accept: 'application/json',
+                                        },
+                                        mimeType: 'multipart/form-data',
+                                    };
+                                    var formData = new FormData();
+                                    formData.append('image', $files[0]);
+                                    settings.data = formData;
+                                    $.ajax(settings).done(function (response) {
+                                        console.log(response);
+                                        var obj = JSON.parse(response);
+                                        document.getElementById("data").value =   obj.data.link;
+                                        document.getElementById("output").src =   obj.data.link;
+                                    });
+                                }
+                            });
+                        });
+                    </script>      
                 </div>
             </div>
             <div class="form-group row">
@@ -54,7 +95,7 @@
                 <div class="col-sm-10">
                     <div class="images-container">
                         <div class="image-container">
-                            <img class="image" src="{{product.img}}" alt="Image" />
+                            <img id ="output" name="img" src="{{image.url}}" alt="Image" width="300" height="auto">
 
                         </div>
                     </div>

@@ -11,7 +11,6 @@ router.get('/', productController.list);
 router.get('/create', productController.product_create_get);
 router.post('/create', productController.product_create_post);
 
-router.get('/test', productController.product_create_test_get);
 //router.post('/test', productController.product_create_post);
 
 router.get('/update/:id', productController.product_update_get);
