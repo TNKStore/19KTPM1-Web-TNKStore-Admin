@@ -15,7 +15,7 @@ exports.listWithCatalog = (page, itemPerPage) => Product.findAndCountAll(
         include: [{
             model: Catalog
         }]
-    })
+    });
 
 exports.getProductByID = id => Product.findOne({ where: { id: id } })
 

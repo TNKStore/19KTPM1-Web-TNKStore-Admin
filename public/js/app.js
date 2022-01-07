@@ -632,4 +632,17 @@ $(function () {
         }
     };
     $.extend(e, config.validations), $("#change-password-form").validate(e)
-}), NProgress.start(), NProgress.done();
+}),$(function () {
+    if (!$("#catalog-update").length) return !1;
+    var e = {
+        rules: {
+            name: "required",
+        },
+        messages: {
+            name: {
+                required: "Please enter name"
+            },
+        }
+    };
+    $.extend(e, config.validations), $("#catalog-update").validate(e)
+}),NProgress.start(), NProgress.done();
