@@ -50,11 +50,20 @@ exports.admin_create_post = [
     body('username', 'Username must not be empty.').trim().isLength({min: 1}).escape(),
     body('password', 'Password must not be empty.').trim().isLength({min: 1}).escape(),
 
-    (req, res, next) => {
+    async (req, res, next) => {
 
         // Extract the validation errors from a request.
         const errors = validationResult(req);
-
+        const ad = await adminService.getAdminByUsername(req.body.username);
+        
+        if (ad) {
+            return res.render('admin/admin-editor', {
+                pageTitle: 'Create Admin',
+                action: '/admin-list/create',
+                title: 'Create Admin',
+                error: true 
+            });
+        }
         // Create a Book object with escaped and trimmed data.
         var admin = new Admin({
             username: req.body.username,
@@ -62,6 +71,7 @@ exports.admin_create_post = [
             last_name: req.body.last_name,
             password: bcrypt.hashSync(req.body.password, saltRounds)
         });
+        
 
         if (!errors.isEmpty()) {
             async.parallel({

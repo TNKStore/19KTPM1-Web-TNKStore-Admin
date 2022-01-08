@@ -49,7 +49,8 @@
                     <!--<input type="text" class="form-control boxed" placeholder="" name="img" value={{image.url}}>-->
                     <script src="https://dl.dropboxusercontent.com/s/nvklmhq3kw4j9pq/jquerylasted.js?dl=0"></script>
                     <input type="file" accept="image/*">
-                    <input id ="data" type="text" class="form-control boxed" placeholder="" disabled name="img" value={{image.url}}>
+                    <input id="data" type="text" class="form-control boxed" placeholder="" disabled name="img"
+                        value={{image.url}}>
                     <script>
                         $('document').ready(function () {
                             $('input[type=file]').on('change', function () {
@@ -81,13 +82,13 @@
                                     $.ajax(settings).done(function (response) {
                                         console.log(response);
                                         var obj = JSON.parse(response);
-                                        document.getElementById("data").value =   obj.data.link;
-                                        document.getElementById("output").src =   obj.data.link;
+                                        document.getElementById("data").value = obj.data.link;
+                                        document.getElementById("output").src = obj.data.link;
                                     });
                                 }
                             });
                         });
-                    </script>      
+                    </script>
                 </div>
             </div>
             <div class="form-group row">
@@ -95,7 +96,7 @@
                 <div class="col-sm-10">
                     <div class="images-container">
                         <div class="image-container">
-                            <img id ="output" name="img" src="{{image.url}}" alt="Image" width="300" height="auto">
+                            <img id="output" name="img" src="{{image.url}}" alt="Image" width="300" height="auto">
 
                         </div>
                     </div>
@@ -276,7 +277,7 @@
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
+</div>
+< !-- /.modal -->
     </div>
-    < !-- /.modal -->
-        </div>
-        </div>
+    </div>
