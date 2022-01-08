@@ -21,12 +21,17 @@ exports.chart = async function (req, res, next) {
     const total4 = await Bill.findAndCountAll();
     const total5 = await User.findAndCountAll();
 
+    const topView = await dashboardService.listViewWithCatalog(10);
+    const topSold = await dashboardService.listSoldWithCatalog(10);
+
     res.render('index', {
         title: 'TNKStore',
         total1: total1.count,
         total2: total2,
         total3: total3.count,
         total4: total4.count,
-        total5: total5.count
+        total5: total5.count,
+        topView: topView,
+        topSold: topSold
     });
 }

@@ -44,7 +44,7 @@ exports.bill_update_get = async function (req, res, next) {
     if (id) {
         const bill = await billService.getBillByIDWithStatusAndPaymentAndUser(id);
         const detail = await billDetailService.getBillDetail(id);
-        const status = await statusService.list;
+        const status = await statusService.list();
         res.render('bill/bill-editor',
             {
                 pageTitle: "Update the Bill",

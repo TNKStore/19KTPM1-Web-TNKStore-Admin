@@ -39,7 +39,7 @@ exports.list = async function (req, res, next) {
 
 // Display product create form on GET.
 exports.product_create_get = async function (req, res) {
-    const catalog = await catalogService.list;
+    const catalog = await catalogService.list();
 
     res.render('items/item-editor', {
         pageTitle: 'Create Product',
