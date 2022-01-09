@@ -645,4 +645,29 @@ $(function () {
         }
     };
     $.extend(e, config.validations), $("#catalog-update").validate(e)
+}),$(function () {
+    if (!$("#item-update").length) return !1;
+    var e = {
+        rules: {
+            name: "required",
+            amount: "required",
+            price: "required",
+            category: "required",
+        },
+        messages: {
+            name: {
+                required: "Please enter name"
+            },
+            amount: {
+                required: "Please enter amount"
+            },
+            price: {
+                required: "Please enter price"
+            },
+            category: {
+                required: "Please choose category"
+            },
+        }
+    };
+    $.extend(e, config.validations), $("#item-update").validate(e)
 }),NProgress.start(), NProgress.done();

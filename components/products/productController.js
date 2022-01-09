@@ -67,7 +67,7 @@ exports.product_create_post = [
         Date.prototype.timeNow = function () {
             return ((this.getHours() < 10) ? "0" : "") + this.getHours() + ":" + ((this.getMinutes() < 10) ? "0" : "") + this.getMinutes() + ":" + ((this.getSeconds() < 10) ? "0" : "") + this.getSeconds();
         }
-        console.log(req.body.img);
+        console.log(req.body.imgs);
         // Create a Product object
         var product = new Product({
             name: req.body.name,
@@ -81,7 +81,7 @@ exports.product_create_post = [
             update_at: new Date().today() + " @ " + new Date().timeNow(),
             hide: 0,
         });
-
+        
         if (!errors.isEmpty()) {
             // There are errors. Render form again with sanitized values/error messages.
 
@@ -91,6 +91,7 @@ exports.product_create_post = [
                 if (err) {
                     return next(err);
                 }
+                console.log(req.body.imgs);
                 res.render('items/item-editor', {
                     name: results.name,
                     catalog_id: parseInt(results.category),
@@ -112,7 +113,7 @@ exports.product_create_post = [
                     result => {
                         var image = new Image({
                             product_id: result.id,
-                            url: req.body.img
+                            url: req.body.imgs
                         });
                         image.save()
                             .then(_ => res.redirect('/items-list'))

@@ -3,12 +3,12 @@
         <h3 class="title"> {{pageTitle}} <span class="sparkline bar" data-type="bar"></span>
         </h3>
     </div>
-    <form name="item" action={{action}} method="POST">
+    <form id="item-update" name="item" action={{action}} method="POST">
         <div class="card card-block">
             <div class="form-group row">
                 <label class="col-sm-2 form-control-label text-xs-right"> Name: </label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control boxed" placeholder="" name="name" value="{{product.name}}">
+                    <input type="text" class="form-control boxed" placeholder="" name="name" value="{{product.name}}" required>
                 </div>
             </div>
             <div class="form-group row">
@@ -49,8 +49,8 @@
                     <!--<input type="text" class="form-control boxed" placeholder="" name="img" value={{image.url}}>-->
                     <script src="https://dl.dropboxusercontent.com/s/nvklmhq3kw4j9pq/jquerylasted.js?dl=0"></script>
                     <input type="file" accept="image/*">
-                    <input id="data" type="text" class="form-control boxed" placeholder="" disabled name="img"
-                        value={{image.url}}>
+                    <input id="data" type="text" class="form-control boxed" placeholder="" name="imgs"
+                        value="{{image.url}}" readonly>
                     <script>
                         $('document').ready(function () {
                             $('input[type=file]').on('change', function () {
