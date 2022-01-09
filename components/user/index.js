@@ -6,7 +6,7 @@ const userController = require('./userController');
 /* GET home page. */
 router.get('/', userController.list);
 
-router.get('/:id', userController.user_detail_get);
+router.get('/detail/:id', userController.user_detail_get);
 
 router.get('/lock', userController.user_lock_get);
 

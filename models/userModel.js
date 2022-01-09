@@ -27,6 +27,12 @@ const User = sequelize.define('user', {
     },
     locked: {
         type: Sequelize.INTEGER
+    },
+    activated: {
+        type: Sequelize.INTEGER,
+    },
+    activationString: {
+        type: Sequelize.STRING,
     }
 }, {
     tableName: "user",
