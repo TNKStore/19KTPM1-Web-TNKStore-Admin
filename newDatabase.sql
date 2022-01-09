@@ -62,7 +62,7 @@ CREATE TABLE `bill` (
   PRIMARY KEY (`id`),
   KEY `FK_User_Bill` (`user_id`),
   KEY `FK_Payment_Bill` (`payment_id`),
-  KEY `FK_``_Bill` (`status_id`),
+  KEY `FK_Status_Bill` (`status_id`),
   CONSTRAINT `bill_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `bill_ibfk_2` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`id`),
   CONSTRAINT `bill_ibfk_3` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`)
