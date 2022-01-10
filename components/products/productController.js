@@ -182,7 +182,7 @@ exports.product_update_post = [
         const id = parseInt(req.params.id);
         // Create a Book object with escaped and trimmed data.
         const product = await productService.getProductByID(id);
-        const image = await productService.getProductImage(id);
+        const image = await imageService.getProductImage(id);
 
         product.name = req.body.name;
         product.catalog_id = parseInt(req.body.category);
@@ -190,7 +190,8 @@ exports.product_update_post = [
         product.amount = parseInt(req.body.amount);
         product.price = parseInt(req.body.price);
         product.update_at = new Date().today() + " @ " + new Date().timeNow();
-        image.url = req.body.img;
+        console.log(product.update_at);
+        image.url = req.body.imgs;
 
         if (!errors.isEmpty()) {
             async.parallel({}, function (err, results) {
@@ -204,7 +205,7 @@ exports.product_update_post = [
                     amount: results.amount,
                     price: results.price,
                     update_at: results.update_at,
-                    url: results.img,
+                    url: results.imgs,
                     errors: errors.array()
                 });
             });
