@@ -26,6 +26,16 @@ const Bill = sequelize.define('bill', {
     },
     phone: {
         type: Sequelize.STRING,
+    },
+    created_at: {
+        type: Sequelize.DATE,
+        field: `created_at`,
+        get() {
+            return {
+                date: moment(this.getDataValue('createdAt')).format('DD/MM/YYYY'),
+                datetime: moment(this.getDataValue('createdAt')).format('DD/MM/YYYY hh:mm:ss')
+            };
+        }
     }
 }, {
         tableName: "bill",
